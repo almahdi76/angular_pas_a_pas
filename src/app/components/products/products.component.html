@@ -1,0 +1,60 @@
+<nav class="navbar navbar-expand-sm navbar-info bg-ligth">
+    <div class="container-fluid">
+      
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mynavbar">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <button (click)="allProducts()" class="btn btn-outline-primary me-2" href="#">All</button>
+          </li>
+          <li class="nav-item">
+            <button (click)="selectedProducts()" class="btn btn-outline-primary me-2 " href="#">selected</button>
+          </li>
+          <li class="nav-item">
+            <button (click)="avalableProducts()"  class="btn btn-outline-primary me-2" href="#">avalable</button>
+          </li>
+        </ul>
+        <form class="d-flex">
+          <input class="form-control me-2" type="text" placeholder="Search">
+          <button class="btn btn-outline-primary" type="button">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+<!---->
+<div class="container mt-3">
+    <h2>List produits</h2>
+        
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>nom produit</th>
+          <th>price</th>
+          <th>selectionne</th>
+          <th>en stock</th>
+
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let pr of productList |async">
+            <td>{{pr.id}}</td>
+            <td>{{pr.name}}</td>
+            <td>{{pr.price}}</td>
+            <td>{{pr.selected}}</td>
+            <td>{{pr.avalible}}</td>
+
+        <!-- <tr *ngFor="let pr of productList">
+          <td>{{pr.id}}</td>
+          <td>{{pr.name}}</td>
+          <td>{{pr.price}}</td>
+          <td>{{pr.selected}}</td>
+          <td>{{pr.avalible}}</td>
+        </tr> -->
+    </tbody>
+</table>
+</div>
+

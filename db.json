@@ -1,0 +1,45 @@
+{
+    "products":[
+        {
+            "id":1,
+            "name":"smartphon",
+            "price":1500,
+            "avalible":true,
+            "quantitie":17,
+            "selected":true
+        },
+                {
+            "id":2,
+            "name":"laptop",
+            "price":1800,
+            "avalible":false,
+            "quantitie":10,
+            "selected":true
+        },
+                {
+            "id":3,
+            "name":"printer",
+            "price":1100,
+            "avalible":false,
+            "quantitie":9,
+            "selected":false
+        },
+                {
+            "id":4,
+            "name":"taplette",
+            "price":900,
+            "avalible":true,
+            "quantitie":4,
+            "selected":false
+        },
+        {
+            "id":5,
+            "name":"moniter",
+            "price":800,
+            "avalible":true,
+            "quantitie":13,
+            "selected":true
+        }
+    ]
+}
+
