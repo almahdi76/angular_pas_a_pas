@@ -1,7 +1,8 @@
 import { Component,OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError, map, of, startWith } from 'rxjs';
 import { Product } from 'src/app/model/product.model';
 import { ProductService } from 'src/app/services/product.service';
+import { AppDataState, DataStateEnum } from 'src/app/state/product.state';
 
 @Component({
   selector: 'app-products',
@@ -11,7 +12,8 @@ import { ProductService } from 'src/app/services/product.service';
 export class ProductsComponent implements OnInit {
 
   // productList!:Product[];
-   productList!:Observable<Product[]>
+   /* productList$!:Observable<Product[]> */
+   productList$:Observable<AppDataState<Product[]>>| null=null;
     errorMs!:string;
   constructor(private productService:ProductService){
 
@@ -19,19 +21,27 @@ export class ProductsComponent implements OnInit {
   ngOnInit(): void {
    
   }
-
   allProducts(){
-    this.productList=this.productService.getAllProduit();
+    this.productList$=this.productService.getAllProduit().pipe(
+      map(data=>({datastat:DataStateEnum.LOADED,data:data})),
+      startWith({datastat:DataStateEnum.LOADING}),
+      catchError(err=>of({datastat:DataStateEnum.ERROR,errorMessage:err.message}))
+
+    )
   }
 
+/*   allProducts(){
+    this.productList$=this.productService.getAllProduit();
+  } */
+/* 
   selectedProducts(){
-    this.productList=this.productService.getSelectedProduit();
+    this.productList$=this.productService.getSelectedProduit();
 
   }
 
   avalableProducts(){
-    this.productList=this.productService.getAvalabledProduit();
-  }
+    this.productList$=this.productService.getAvalabledProduit();
+  } */
 
  /*  allProducts(){
     this.productService.getAllProduit().subscribe({
