@@ -42,12 +42,22 @@
         </tr>
       </thead>
       <tbody>
+        <div class="container"> 
+            
+        </div>
         <tr *ngFor="let pr of productList$ |async">
             <td>{{pr.id}}</td>
             <td>{{pr.name}}</td>
             <td>{{pr.price}}</td>
             <td>{{pr.selected}}</td>
             <td>{{pr.avalible}}</td>
+
+       <!--  <tr *ngFor="let pr of productList$ |async">
+            <td>{{pr.id}}</td>
+            <td>{{pr.name}}</td>
+            <td>{{pr.price}}</td>
+            <td>{{pr.selected}}</td>
+            <td>{{pr.avalible}}</td> -->
 
         <!-- <tr *ngFor="let pr of productList">
           <td>{{pr.id}}</td>

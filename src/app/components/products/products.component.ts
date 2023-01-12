@@ -22,13 +22,30 @@ export class ProductsComponent implements OnInit {
    
   }
   allProducts(){
-    this.productList$=this.productService.getAllProduit().pipe(
+   return  this.productService.getAllProduit().pipe(
       map(data=>({datastat:DataStateEnum.LOADED,data:data})),
       startWith({datastat:DataStateEnum.LOADING}),
       catchError(err=>of({datastat:DataStateEnum.ERROR,errorMessage:err.message}))
-
     )
   }
+
+  selectedProducts(){
+    return  this.productService.getAllProduit().pipe(
+       map(data=>({datastat:DataStateEnum.LOADED,data:data})),
+       startWith({datastat:DataStateEnum.LOADING}),
+       catchError(err=>of({datastat:DataStateEnum.ERROR,errorMessage:err.message}))
+ 
+     )
+   }
+
+   avalableProducts(){
+    return  this.productService.getAllProduit().pipe(
+       map(data=>({datastat:DataStateEnum.LOADED,data:data})),
+       startWith({datastat:DataStateEnum.LOADING}),
+       catchError(err=>of({datastat:DataStateEnum.ERROR,errorMessage:err.message}))
+ 
+     )
+   }
 
 /*   allProducts(){
     this.productList$=this.productService.getAllProduit();
