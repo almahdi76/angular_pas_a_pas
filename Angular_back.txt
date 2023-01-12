@@ -1,0 +1,108 @@
+json-server --watch db.json
+=================================
+creer une service si besoin
+ajouter dans module https
+import { HttpClientModule } from '@angular/common/http';
+
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+  ],
+  
+  inject httpClient
+  on definie les methodes
+  export class ProductService {
+
+  constructor(private http:HttpClient) { }
+  host:string="http://localhost:3000";
+  getAllProduit(){
+    return this.http.get(`${this.host}/products`)
+  }
+  
+  dans envernements on declare host si angular < 15;
+  
+  creer model interface
+  on modifie les methodes avec observable
+   getSelectedProduit():Observable<Product[]>{
+    return this.http.get<Product[]>(`${this.host}/products?selected=true`)
+  }
+  
+============
+dans productComponent on inject la service
+implement onInit
+
+  export class ProductsComponent implements OnInit {
+   productList!:Product[];
+  constructor(private productService:ProductService){ }
+  ngOnInit(): void {
+ this.productService.getAllProduit().subscribe({
+  next:(data)=>{return this.productList=data}
+ })
+  }
+-------------------  
+  ou
+--------------------
+productList!:Product[];
+  allProducts(){
+    this.productService.getAllProduit().subscribe({
+      next:(data)=>{return this.productList=data},
+      error:(err)=> {
+        this.errorMs="cette service n'est pas accesible!!";
+      } 
+     })
+  }
+  
+  html
+          <tr *ngFor="let pr of productList">
+          <td>{{pr.id}}</td>
+          <td>{{pr.name}}</td>
+          <td>{{pr.price}}</td>
+          <td>{{pr.selected}}</td>
+          <td>{{pr.avalible}}</td>
+        </tr>
+--------------------------------
+amélioration
+--------------------------------
+     productList$!:Observable<Product[]>   !! $ ===observable
+	   allProducts(){
+    this.productList=this.productService.getAllProduit();
+  }
+  
+  
+	HTML
+	       <tr *ngFor="let pr of productList |async">
+            <td>{{pr.id}}</td>
+			
+========== gerer ls erreurs ==========================
+  allProducts(){
+    this.productList$=this.productService.getAllProduit().
+    pipe(
+      map(data=>({datastat:"Loaded",data:data})),
+      startWith({datastat:"Loading"}),
+      catchError(err=>of({datastat:"Loaded",errorMessage:err.message}))
+
+    );
+  }
+  
+creer state/product.state.ts
+export enum  DataStateEnum{
+    LOADING,
+    LOADED,
+    ERROR
+}
+
+export interface AppDataState<T>{
+    datastate?:DataStateEnum,
+    data?:T,
+    errorMessage?:string
+}
+productList$!:Observable<Product[]> DEVIENT
+ productList$!:Observable<AppDataState<Product[]>>;
+   allProducts(){
+   return  this.productService.getAllProduit().pipe(
+      map(data=>({datastat:DataStateEnum.LOADED,data:data})),
+      startWith({datastat:DataStateEnum.LOADING}),
+      catchError(err=>of({datastat:DataStateEnum.ERROR,errorMessage:err.message}))
+    )
+  }
